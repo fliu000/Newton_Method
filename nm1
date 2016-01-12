@@ -1,0 +1,38 @@
+function result = nm1(initial)
+    lim = 0;
+    x0 = initial;
+    while (abs(real(f(x0))) > 0.001) && (lim < 10000) 
+        x0 = x0 - real(f(x0)) / f1(x0);
+        lim = lim + 1;
+        disp(x0);
+    end
+    result = x0;
+    disp(lim);
+    disp(f(x0));
+end
+
+function result = f(num)
+    gamma_inf = 3.3 * 10^(18);
+    k = 3 * 10^(-18); % adsorption coefficient
+    % fractional coverage theta = k * c / (1 + k * c)
+    E0 = 40; % limiting elasticity
+    D = 5 * 10^(-10); % diffusion coefficient
+    w = 0.2;  % frequency
+    Er = 10^(-4); % elastic modulus from experiment
+    Ei = 2^(-4); % viscous modulus from experiment
+    a11 = gamma_inf * k / (1 + k * num)^2; % a11 = d(gamma)/dc = gamma_inf * d(theta) / dc
+    result = E0 * a11 / (a11 + sqrt(D / (2 * w)) * (1 - 1i)) - Er - 1i * Ei;
+end
+
+function result = f1(num)
+gamma_inf = 3.3;
+    k = 3 * 10^(18); % adsorption coefficient
+    % fractional coverage theta = k * c / (1 + k * c)
+    E0 = 40; % limiting elasticity
+    D = 5 * 10^(-10); % diffusion coefficient
+    w = 0.2;  % frequency
+    m = gamma_inf * k;
+    n = sqrt(D / (2 * w));
+    result = E0 * (2 * k * n * (k * num + 1)/(2*n*(k*num+1)^2+2*m*n^2+m) - 4*k*n*(k*num+1)*(n*(k*num+1)^2/m+1)/m/(2*n*(k*num+1)^2/m+2*n^2+1)^2);
+    % real(-E0 * (2 - 2i) * gamma_inf * k^2 * sqrt(D / (2 * w)) * (k * num + 1) / (gamma_inf * k + sqrt(D / (2 * w)) * (1 - 1i) * (k * num +1)^2)^2);
+end
