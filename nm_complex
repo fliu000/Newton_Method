@@ -1,0 +1,22 @@
+function result = nm_complex(initial)
+    lim = 0;
+    x0 = initial;
+        Er = -8; Ei = -4;
+    while (abs(f(x0)) > 0.001) && (lim < 1000) 
+        x0 = x0 - real(f(x0)) /f1(x0);
+        lim = lim + 1;
+        disp(x0);
+    end
+    result = x0;
+    disp(lim);
+end
+
+function result = f(num)
+    Er = -8; Ei = -4;
+    result = 4 + num^2 * (-3 - 1i) - Er - 1i * Ei;
+end
+
+function result = f1(num)
+
+    result = - 6 * num;
+end
